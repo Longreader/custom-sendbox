@@ -1,0 +1,83 @@
+version: "2"
+output:
+  # The formats used to render issues.
+  formats:
+    # Prints issues in a text format with colors, line number, and linter name.
+    # This format is the default format.
+    text:
+      # Output path can be either `stdout`, `stderr` or path to the file to write to.
+      # Default: stdout
+      path: stdout
+      # Print linter name in the end of issue text.
+      # Default: true
+      print-linter-name: true
+      # Print lines of code with issue.
+      # Default: true
+      print-issued-lines: true
+      # Use colors.
+      # Default: true
+      colors: true
+linters:
+  enable:
+    - dupl
+    - gocognit
+    - gocritic
+    - gosec
+    - misspell
+    - nlreturn
+    - revive
+    - staticcheck
+    - unparam
+    - whitespace
+    - wsl
+  settings:
+    dupl:
+      threshold: 100
+    gocognit:
+      min-complexity: 15
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - path: (.+)\.go$
+        text: vendor
+      - path: (.+)\.go$
+        text: third_party
+      - path: (.+)\.go$
+        text: testdata
+      - path: (.+)\.go$
+        text: .git
+      - path: (.+)\.go$
+        text: .github
+      - path: (.+)\.go$
+        text: .idea
+      - path: (.+)\.go$
+        text: .vscode
+      - path: (.+)\.go$
+        text: .DS_Store
+      - path: (.+)\.go$
+        text: .env
+    paths:
+      - .*_test.go
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+#  settings:
+#    goimports:
+#      local-prefixes:
+#        - gitlab.netopia.app/firewall-compliance/config-manager
+  exclusions:
+    generated: lax
+    paths:
+      - .*_test.go
+      - third_party$
+      - builtin$
+      - examples$
